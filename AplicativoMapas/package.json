@@ -1,0 +1,19 @@
+{
+  "name": "aplicativomapas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.32",
+    "@types/google-maps": "^3.2.3",
+    "@vitalets/google-translate-api": "^9.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "googlemaps": "^1.12.0"
+  }
+}
