@@ -19,11 +19,14 @@ app.get('/rota', (req, res) => {
 
 googleMapsClient.directions({
   params: {
-    key: 'SUA KEY AQUI', // Aqui e onde ira ser colocado a KEY do GOOGLE MAPS API, por motivo de segurança não estou fornecendo a minha no momento.
+    key: '', // Aqui e onde ira ser colocado a KEY do GOOGLE MAPS API, por motivo de segurança não estou fornecendo a minha no momento.
     origin: origin, // Parametro do Endereço de Origem
     destination: destination, // Parametro do Endereço de Destino , Sera modificado na URL de Requição no FRONT-END
     mode: 'driving', // Modo de transporte ( Escolhe os Modos de Transporte, os mesmos seram informados melhor no futuro, por agora a opção driving(Carro) sera a padrão)
     alternatives: true, // Essa opção faz aparecer rotas auternativas
+    language: 'pt-BR',
+    region: 'br',
+
   },
   timeout: 5000
 })

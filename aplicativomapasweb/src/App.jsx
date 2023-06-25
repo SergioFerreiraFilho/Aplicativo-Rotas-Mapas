@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import parse from 'html-react-parser';
 
 function App() {
   const [route, setRoute] = useState(null);
@@ -29,7 +30,7 @@ function App() {
           <h2>Passos do trajeto:</h2>
           <ol>
             {route.steps.map((step, index) => (
-              <li key={index}>{step.html_instructions}</li>
+              <li key={index}>{parse(step.html_instructions)}</li>
             ))}
           </ol>
         </div>
