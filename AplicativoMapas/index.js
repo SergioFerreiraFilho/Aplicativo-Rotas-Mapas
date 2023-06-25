@@ -10,9 +10,32 @@ app.use(cors());
 // Const de Configuração do Google Maps
 const googleMapsClient = new Client({});
 
+// Rota de Requisição GET para obter sugestões de autocompletar
+app.get('/suggestions', async (req, res) => {
+  const input = req.query.input;
+
+  try {
+    const response = await googleMapsClient.placeAutocomplete({
+      params: {
+        input: input,
+        language: 'pt-BR',
+        region: 'br',
+        types: ['address'], // Define o tipo de sugestões (pode ser ajustado de acordo com suas necessidades)
+        key: '', // Substitua com sua chave de API do Google Maps JavaScript API
+      },
+      timeout: 5000
+    });
+
+    const suggestions = response.data.predictions.map(prediction => prediction.description);
+    res.json({ suggestions: suggestions });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Ocorreu um erro ao obter as sugestões.' });
+  }
+});
 
 
-// Rota de Requisição GET
+// Rota de Requisição GET para informar as Rotas
 app.get('/rota', (req, res) => {
   const origin = req.query.origin;
   const destination = req.query.destination;
