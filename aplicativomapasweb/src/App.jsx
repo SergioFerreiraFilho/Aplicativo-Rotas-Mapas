@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
+import Inputs from './components/Inputs/Inputs';
 
 function App() {
   const [route, setRoute] = useState(null);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
 
-  useEffect(() => {
-    async function fetchRoute() {
-      try {
-        const response = await fetch('http://localhost:3000/rota?origin=Fortaleza,%20Brasil&destination=Aquiraz,%20Brasil'); // Por enquanto esta sendo feito uma rota padrão de Aquiraz a Fortaleza, por motivos de testes rapidos.
-        const data = await response.json();
-        setRoute(data);
-      } catch (error) {
-        console.log(error);
-      }
+  const generateRoute = async (origin, destination) => {
+    try {
+      const response = await fetch(`http://localhost:3000/rota?origin=${origin}&destination=${destination}`);
+      const data = await response.json();
+      setRoute(data);
+      setOrigin(origin);
+      setDestination(destination);
+    } catch (error) {
+      console.log(error);
     }
-
-    fetchRoute();
-  }, []);
+  };
 
   return (
     <div>
-      <h1>Rota entre Fortaleza e Aquiraz</h1>
+      <Inputs onGenerateRoute={generateRoute} />
       {route ? (
         <div>
+          <h1>Rota entre {origin} e {destination}</h1>
           <h2>Informações da rota:</h2>
           <p>Duração: {route.routes[0].legs[0].duration.text}</p>
           <p>Distância: {route.routes[0].legs[0].distance.text}</p>
@@ -34,9 +36,7 @@ function App() {
             ))}
           </ol>
         </div>
-      ) : (
-        <p>Carregando rota...</p>
-      )}
+      ) : null}
     </div>
   );
 }
