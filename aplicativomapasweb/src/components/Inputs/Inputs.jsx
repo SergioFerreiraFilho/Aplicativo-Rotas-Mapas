@@ -55,8 +55,8 @@ const Inputs = ({ onGenerateRoute }) => {
   const canGenerateRoute = origin !== '' && destination !== '';
 
   return (
-    <div>
-      <label>
+    <div className='container' >
+      <label className='inputCSS'>
         Origem:
         <input type="text" value={origin} onChange={handleOriginChange} />
         <ul>
@@ -75,7 +75,9 @@ const Inputs = ({ onGenerateRoute }) => {
         </ul>
       </label>
       {canGenerateRoute ? (
+        <div>
         <button onClick={handleGenerateRoute}>Gerar Rota</button>
+        </div>
       ) : (
         <p>Digite as Rotas</p>
       )}

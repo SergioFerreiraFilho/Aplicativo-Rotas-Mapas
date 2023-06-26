@@ -1,14 +1,28 @@
 // Const Iniciais de Importção das Funcionalidades Basicas
-
 const express = require('express');
 const { Client } = require('@googlemaps/google-maps-services-js');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+const dotenv = require('dotenv');
+
+// Carrega as variáveis de ambiente do arquivo .env
+dotenv.config();
+
+
 
 
 // Const de Configuração do Google Maps
 const googleMapsClient = new Client({});
+
+// Const de configuração da Key
+
+const apiKey = process.env.GOOGLEAPIKEY;
+
+// Levando a Key para o FRONT-END
+app.get('/api/google-api-key', (req, res) => {
+  res.send(process.env.GOOGLEAPIKEY);
+});
 
 // Rota de Requisição GET para obter sugestões de autocompletar
 app.get('/suggestions', async (req, res) => {
@@ -21,7 +35,7 @@ app.get('/suggestions', async (req, res) => {
         language: 'pt-BR',
         region: 'br',
         types: ['address'], // Define o tipo de sugestões (pode ser ajustado de acordo com suas necessidades)
-        key: '', // Substitua com sua chave de API do Google Maps JavaScript API
+        key: apiKey, // Substitua com sua chave de API do Google Maps JavaScript API
       },
       timeout: 5000
     });
@@ -40,32 +54,51 @@ app.get('/rota', (req, res) => {
   const origin = req.query.origin;
   const destination = req.query.destination;
 
-googleMapsClient.directions({
-  params: {
-    key: '', // Aqui e onde ira ser colocado a KEY do GOOGLE MAPS API, por motivo de segurança não estou fornecendo a minha no momento.
-    origin: origin, // Parametro do Endereço de Origem
-    destination: destination, // Parametro do Endereço de Destino , Sera modificado na URL de Requição no FRONT-END
-    mode: 'driving', // Modo de transporte ( Escolhe os Modos de Transporte, os mesmos seram informados melhor no futuro, por agora a opção driving(Carro) sera a padrão)
-    alternatives: true, // Essa opção faz aparecer rotas auternativas
-    language: 'pt-BR',
-    region: 'br',
-
-  },
-  timeout: 5000
-})
-  .then(response => {
-    // Extrai as informações de rota e os passos // Futuramente sera feito uma const para extrair a latitude e longitude para formar o mapa.
-    const routes = response.data.routes;
-    const steps = routes[0].legs[0].steps;
-
-    // Retorna a resposta em formato JSON
-    res.json({ routes: routes, steps: steps });
+  googleMapsClient.directions({
+    params: {
+      key: apiKey, // Aqui é onde será colocado a KEY do GOOGLE MAPS API, por motivo de segurança não estou fornecendo a minha no momento.
+      origin: origin, // Parâmetro do Endereço de Origem
+      destination: destination, // Parâmetro do Endereço de Destino, será modificado na URL de Requisição no FRONT-END
+      mode: 'driving', // Modo de transporte (Escolhe os Modos de Transporte, os mesmos serão informados melhor no futuro, por agora a opção driving(Carro) será a padrão)
+      alternatives: true, // Essa opção faz aparecer rotas alternativas
+      language: 'pt-BR',
+      region: 'br',
+    },
+    timeout: 5000
   })
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ error: 'Ocorreu um erro ao obter a rota.' });
-  });
+    .then(response => {
+      // Extrai as informações de rota e os passos
+      const routes = response.data.routes;
+      const steps = routes[0].legs[0].steps;
+      const stepsWithcoordinates = routes[0].legs[0].steps.map(step => {
+        const startLocation = step.start_location ? {
+          lat: step.start_location.lat,
+          lng: step.start_location.lng
+        } : null;
+      
+        const endLocation = step.end_location ? {
+          lat: step.end_location.lat,
+          lng: step.end_location.lng
+        } : null;
+      
+        return {
+          instruction: step.html_instructions,
+          distance: step.distance.text,
+          duration: step.duration.text,
+          startLocation: startLocation,
+          endLocation: endLocation
+        };
+      });
+
+      // Retorna a resposta em formato JSON
+      res.json({ routes: routes, steps: steps, stepsWithcoordinates: stepsWithcoordinates });
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error: 'Ocorreu um erro ao obter a rota.' });
+    });
 });
+
 
 // Inicia o servidor // Pode Trocar a Porta, sera feito uma const no futuro para isso, por enquanto esta 3000 por padrão
 app.listen(3000, () => {
