@@ -1,0 +1,25 @@
+.container {
+height: 80%vh;
+width: 60%vh;
+background-color: #146a75;
+border-radius: 20px;
+}
+
+.inputLocation {
+  border: 2px solid red;
+  width: 40;
+}
+
+.textMap {
+  display: flex;
+}
+
+.boxSteps {
+  width: 50%;
+
+}
+
+.boxMap {
+  width: 50%;
+  padding: 15px;
+}

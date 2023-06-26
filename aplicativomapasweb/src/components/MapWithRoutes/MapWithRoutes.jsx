@@ -3,8 +3,8 @@ import axios from 'axios';
 import './styles.css'
 
 const containerStyle = {
-  width: '50%',
-  height: '400px',
+  height: '100%',
+  borderRadius:'15px',
 };
 
 const center = {
