@@ -4,10 +4,10 @@ const { Client } = require('@googlemaps/google-maps-services-js');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
 // Carrega as variáveis de ambiente do arquivo .env
-dotenv.config();
+// dotenv.config();
 
 
 
@@ -17,11 +17,11 @@ const googleMapsClient = new Client({});
 
 // Const de configuração da Key
 
-const apiKey = process.env.GOOGLEAPIKEY;
+const APIKEY = ''
 
 // Levando a Key para o FRONT-END
 app.get('/api/google-api-key', (req, res) => {
-  res.send(process.env.GOOGLEAPIKEY);
+  res.send(APIKEY);
 });
 
 // Rota de Requisição GET para obter sugestões de autocompletar
@@ -35,7 +35,7 @@ app.get('/suggestions', async (req, res) => {
         language: 'pt-BR',
         region: 'br',
         types: ['address'], // Define o tipo de sugestões (pode ser ajustado de acordo com suas necessidades)
-        key: apiKey, // Substitua com sua chave de API do Google Maps JavaScript API
+        key: APIKEY, // Substitua com sua chave de API do Google Maps JavaScript API
       },
       timeout: 5000
     });
@@ -56,7 +56,7 @@ app.get('/rota', (req, res) => {
 
   googleMapsClient.directions({
     params: {
-      key: apiKey, // Aqui é onde será colocado a KEY do GOOGLE MAPS API, por motivo de segurança não estou fornecendo a minha no momento.
+      key: APIKEY, // Aqui é onde será colocado a KEY do GOOGLE MAPS API, por motivo de segurança não estou fornecendo a minha no momento.
       origin: origin, // Parâmetro do Endereço de Origem
       destination: destination, // Parâmetro do Endereço de Destino, será modificado na URL de Requisição no FRONT-END
       mode: 'driving', // Modo de transporte (Escolhe os Modos de Transporte, os mesmos serão informados melhor no futuro, por agora a opção driving(Carro) será a padrão)
