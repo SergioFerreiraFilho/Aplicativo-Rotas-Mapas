@@ -17,7 +17,7 @@ const googleMapsClient = new Client({});
 
 // Const de configuração da Key
 
-const APIKEY = ''
+const APIKEY = 'sua_key_do_google_maps'
 
 // Levando a Key para o FRONT-END
 app.get('/api/google-api-key', (req, res) => {
