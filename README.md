@@ -34,4 +34,4 @@ Para executar o Front-End, siga as instruções abaixo:
 
 ## O Front-End será executado e estará acessível em seu navegador. O URL sera exibido no terminal.
 
-**Após iniciar o Front-End, você verá uma interface com dois campos de pesquisa: um para a origem e outro para o destino. O botão para gerar a rota e exibir o mapa só será ativado quando ambos os campos estiverem preenchidos
+*Após iniciar o Front-End, você verá uma interface com dois campos de pesquisa: um para a origem e outro para o destino. O botão para gerar a rota e exibir o mapa só será ativado quando ambos os campos estiverem preenchidos*

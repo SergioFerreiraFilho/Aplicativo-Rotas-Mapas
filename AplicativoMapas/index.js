@@ -17,7 +17,7 @@ const googleMapsClient = new Client({});
 
 // Const de configuração da Key
 
-const APIKEY = 'sua_key_do_google_maps'
+const APIKEY = 'sua_key_do_google_maps' // Coloque aqui a sua key do GOOGLE MAPS API
 
 // Levando a Key para o FRONT-END
 app.get('/api/google-api-key', (req, res) => {
@@ -35,7 +35,7 @@ app.get('/suggestions', async (req, res) => {
         language: 'pt-BR',
         region: 'br',
         types: ['address'], // Define o tipo de sugestões (pode ser ajustado de acordo com suas necessidades)
-        key: APIKEY, // Substitua com sua chave de API do Google Maps JavaScript API
+        key: APIKEY,
       },
       timeout: 5000
     });
